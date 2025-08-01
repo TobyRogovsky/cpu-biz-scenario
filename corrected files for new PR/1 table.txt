@@ -1,0 +1,27 @@
+use master
+go
+drop table if EXISTS dbo.FitPlex 
+go
+CREATE table dbo.FitPlex(
+    MemberID int not null IDENTITY PRIMARY KEY,
+    FirstName VARCHAR(25) not NULL CONSTRAINT ck_first_name_cannot_be_blank check (FirstName <> ''),
+    LastName VARCHAR (25)not null CONSTRAINT ck_last_name_cannot_be_blank check (lastName <> ''),
+    ContactNumber CHAR(8) not NULL CONSTRAINT ck_contact_number_must_be_in_correct_format CHECK (ContactNumber like '[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]'), 
+    EmergencyContactNumber CHAR(8) not null constraint ck_emergency_contact_number_must_be_in_correct_format CHECK (emergencyContactNumber like '[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]') ,
+    InitialWeight int not NULL constraint ck_initial_weight_must_be_greater_than_0 check (InitialWeight > 0),
+    GoalWeight int not null constraint ck_goal_weight_must_be_greater_than_0 check (GoalWeight > 0),
+    CurrentWeight int NOT NULL constraint ck_current_weight_must_be_greater_than_0 check (CurrentWeight > 0),
+    BMI decimal(4,1) not null constraint ck_BMI_must_be_greater_than_0 check (BMI > 0),
+    StartDate DATE not NULL CONSTRAINT ck_start_date_cannot_be_before_12_01_2022 CHECK (StartDate > = '2022-12-01'),
+    EndDate DATE not NULL,
+    SessionDate DATE not NULL,
+    SessionTime VARCHAR(10) not NULL,
+    MembershipType VARCHAR(11) not NULL CONSTRAINT ck_memebership_type_can_only_be_Annual_Semi_Annual_Monthly_or_quarterly CHECK (MembershipType in ('annual', 'semi-annual', 'monthly', 'quarterly')),
+    PaymentStatus bit not null,
+    CONSTRAINT ck_goal_weight_must_be_less_than_initial_weight CHECK(InitialWeight > GoalWeight),
+    CONSTRAINT ck_start_date_must_be_before_end_date CHECK(StartDate < EndDate)
+   
+
+)
+go
+ ALTER table Fitplex add WeightLoss as InitialWeight - CurrentWeight PERSISTED
