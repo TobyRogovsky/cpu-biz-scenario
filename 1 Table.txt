@@ -3,7 +3,7 @@ go
 drop table if EXISTS dbo.FitPlex 
 go
 CREATE table dbo.FitPlex(
-    MemberID int not null IDENTITY PRIMARY KEY,
+    FitPlexID int not null IDENTITY PRIMARY KEY,
     FirstName VARCHAR(25) not NULL CONSTRAINT ck_first_name_cannot_be_blank check (FirstName <> ''),
     LastName VARCHAR (25)not null CONSTRAINT ck_last_name_cannot_be_blank check (lastName <> ''),
     ContactNumber CHAR(8) not NULL CONSTRAINT ck_contact_number_must_be_in_correct_format CHECK (ContactNumber LIKE '[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]'), 
