@@ -4,7 +4,7 @@ FROM FitPlex F
 --2) I want a list of all active members whose memberships are due to expire within the next month so that I can text them a reminder to renew their subscription.
 SELECT *
 FROM FitPlex f 
-WHERE EndDate > = GETDATE() and EndDate > = DATEADD(MONTH, 1, GETDATE())
+WHERE EndDate >= GETDATE() AND EndDate < DATEADD(MONTH, 1, GETDATE())
 --3) I want to collect payments that are past due, but would first like to see how much I am owed. Please provide a count of all members per membership type and show how many paid and how many did not. 
     SELECT PaidStatus = COUNT(*), f.PaymentStatus, f.MembershipType 
     FROM FitPlex f 
